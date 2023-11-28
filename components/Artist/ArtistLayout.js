@@ -8,23 +8,40 @@ const Section = ({ title, children, ...props }) => (
     {children}
   </section>
 )
-
+ 
 const ArtistLayout = ({ artist }) => {
   return (
     <div className="mt-6 flex flex-col gap-4 overflow-auto md:flex-row">
-      <div>
-        <p className="mb-2 pl-3">Artist Id: {artist.id}</p>
-        <Section title={'Name'}>
-          <p className="text-2xl">{artist.name}</p>
+      <div>   <Section title={'Artist'}>
+        {artist.primaryImage ? (
+             <img
+             height={150}
+             width={150}
+             className=" max-h-[150px] max-w-[150px] rounded"
+             src={artist.primaryImage}
+             alt={artist.name}
+           />
+          ) : (
+            <p className=" h-[100px] w-[100px] text-center font-bold text-gray-300">
+              No Image
+            </p>
+          )}
+          <p className="font-bold   text-2xl">{artist.name}</p>
         </Section>
          
         <Section title={'Genres'}>
-          {
-            artist.genres?.map((genre, idx) => (
-              <p className="text-md max-w-md" key={idx}>{genre}</p>
-            ))
-          }
-        </Section>
+  <div className="flex">
+    {artist.genres?.map((genre, id) => (
+      <div
+      className={`bg-blue-200 rounded-full px-2 mx-1 text-md max-w-md`}
+      
+        key={id}
+      >
+        {genre.slug}
+      </div>
+    ))}
+  </div>
+</Section>
         <Section title={'Info'}>
           <p className="text-md max-w-md">Bio: {artist.bio}</p>
           <p className="text-xs">Born Year: {artist.dob}</p>
@@ -39,22 +56,7 @@ const ArtistLayout = ({ artist }) => {
         
       </div>
       <div>
-        <div className="mb-2 h-6"></div>
-        <Section title={'Photo'}>
-          {artist.primaryImage ? (
-             <img
-             height={281}
-             width={281}
-             className=" max-h-[281px] max-w-[281px] rounded"
-             src={artist.primaryImage}
-             alt={artist.name}
-           />
-          ) : (
-            <p className="h-[100px] w-[400px] text-center font-bold text-gray-300">
-              No Image
-            </p>
-          )}
-        </Section>
+         
         <Section title={'Songs'}>
           {artist.songs?.length ? (
             <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -64,7 +66,7 @@ const ArtistLayout = ({ artist }) => {
                     <Link href={`/song/${song.id}`}>
                       <a className="flex items-center space-x-2">
                         <div className="flex-shrink-0 w-10 h-10">
-                          <Image
+                          <img
                             src={song.primaryImage}
                             alt={song.name}
                             width={40}
@@ -89,6 +91,72 @@ const ArtistLayout = ({ artist }) => {
             </p>
           )}
         </Section>
+
+
+
+        
+          {artist.bandMembers?.length > 0 && (
+          <Section title={'Band Members'}>
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              {
+                artist.bandMembers?.map((artist, idx) => (
+                    <div key={idx} className="mb-2">
+                    <Link href={`/artist/${artist.slug}`}>
+                      <a className="flex items-center space-x-2">
+                        <div className="flex-shrink-0 w-10 h-10">
+                          <img
+                            src={artist.primaryImage}
+                            alt={artist.name}
+                            width={40}
+                            height={40}
+                            className="rounded-md"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-md">{artist.name}</p> 
+                        </div>
+                      </a>
+                    </Link>
+                    </div>
+                ))
+
+              }
+           
+            </div> </Section>
+          )  }
+
+       {artist.bandMemberOf?.length> 0 && (
+          <Section title={'Band Member Of'}>
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              {
+                artist.bandMemberOf?.map((artist, idx) => (
+                    <div key={idx} className="mb-2">
+                    <Link href={`/artist/${artist.slug}`}>
+                      <a className="flex items-center space-x-2">
+                        <div className="flex-shrink-0 w-10 h-10">
+                          <img
+                            src={artist.primaryImage}
+                            alt={artist.name}
+                            width={40}
+                            height={40}
+                            className="rounded-md"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-md">{artist.name}</p> 
+                        </div>
+                      </a>
+                    </Link>
+                    </div>
+                ))
+
+              }
+           
+            </div> </Section>
+          )  }
+       
+
+
       </div>
     </div>
   )

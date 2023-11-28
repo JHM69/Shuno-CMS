@@ -4,17 +4,23 @@ import React, { Fragment, useState } from 'react'
 import Button from '../common/Button'
 import { Close } from '../common/icons/Close'
 import AlbumForm from '../AlbumForm'
+import { baseUrl } from '../../utils/constants'
 
 const AddAlbum = ({ props }) => {
   const [isOpen, setIsOpen] = useState(false)
   const handleClose = () => setIsOpen(false)
   const handleOpen = () => setIsOpen(true)
   const onFormSubmit = async (data) => {
-    try {
-      await fetch(baseUrl+`/albums/createAlbum`, {
+   
+    console.log(data)
+    try { 
+      const user = JSON.parse(localStorage.getItem('user'));
+      
+      await fetch(baseUrl+`/albums`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
         },
         body: JSON.stringify(data),
       }).then(() => {

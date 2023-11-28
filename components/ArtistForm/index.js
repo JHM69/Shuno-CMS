@@ -17,34 +17,42 @@ const ArtistForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     setValue,
     watch
   } = useForm() 
   
   const [artists , setArtists] = useState([]);
 
+  const [search, setSearch] = useState('');
+
   useEffect(() => {
-    axios.get(baseUrl+'/artists').then((res) => {
-      console.log(res.data)
-      setArtists(res.data.data)
-    })
-  
+     
     if (defaultValues) {
       setValue('name', defaultValues.name) 
       setValue('primaryImage', defaultValues.primaryImage)
       setValue('bio', defaultValues.bio)
       setValue('creatorType', defaultValues.creatorType)
-      setValue('genres', defaultValues.genres)
+      setValue('genres', defaultValues.genres.map((genre) => genre.slug))
       setValue('fb', defaultValues.fb)
       setValue('twitter', defaultValues.twitter)
       setValue('wiki', defaultValues.wiki)
       setValue('dob', defaultValues.dob)
       setValue('dominantLanguage', defaultValues.dominantLanguage)
-      setValue('isBand', defaultValues.isBand)
-      setValue('bandMembers', defaultValues.bandMembers)
+      setValue('isBand', defaultValues.isBand? 'true' : 'false')
+      setValue('bandMembers', defaultValues.bandMembers.map((member) => member.slug))
     }
-  }, [defaultValues, setValue])
+  }, [defaultValues, setValue]);
+
+  useEffect(() => {
+    
+    axios.get(baseUrl+`/artists?search=`+search).then((res) => { 
+      setArtists(res.data.artists)
+      }
+      ).catch((err) => {
+        console.log(err)
+      })
+   
+}, [search]);
 
   
 
@@ -226,17 +234,18 @@ const ArtistForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
           />
 
 
-          <select
+          <Select
             name="dominantLanguage"
             label="Language"
+            placeholder="Select Your Language"
             error={errors.dominantLanguage ? errors.dominantLanguage.message : false}
-            
+            register={register('dominantLanguage')}
           >
-            <option value="">Select Language</option>
+            
             <option value="bangla">Bangla</option>
             <option value="english">English</option>
             <option value="hindi">Hindi</option>
-          </select>
+          </Select>
 
            
          
@@ -255,14 +264,38 @@ const ArtistForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
             {
              watch('isBand') === "true" ? (
 
-<> <MultipleSelect
+<> 
+
+         <div className='flex'>
+         <input
+            className='w-4/5 p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-gray-200'
+            name="search"
+            label="Search Band Members"
+            placeholder="Jahangir Hossain..."
+            type="textarea"
+            value={search} 
+            onChange={(e) => setSearch(e.target.value)}
+            error={errors.search ? errors.search.message : false}
+          />
+          <button   onClick={() => {
+            setSearch('') 
+          }} type="button" className="w-1/5">
+            Clear
+          </button>
+
+         </div>
+
+
+            <MultipleSelect
               name="bandMembers"
+              multiple={true}
               label="Select Band Members..."
+              register={register('bandMembers')}
             >
              {
                 artists?.map((artist) => (
-                  <OptionWithCheckbox key={artist.id} value={artist.id}>
-                    {artist.name}
+                  <OptionWithCheckbox key={artist.slug} value={artist.slug}>
+                      {artist.name}
                   </OptionWithCheckbox>
                 ))
              }

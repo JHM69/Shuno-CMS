@@ -35,10 +35,7 @@ function Artist() {
       <div>
         <header className="my-3 flex flex-col items-center justify-between rounded-md md:flex-row">
           <h1 className="mb-3 truncate text-xl font-bold text-gray-700">
-            <span className="mr-2 text-sm font-medium text-gray-500">
-              Artist:{' '}
-            </span>
-            {artist?.name}
+            Artist Details
           </h1>
           <div className="flex items-center space-x-2">
             <UpdateArtist artist={artist} />
