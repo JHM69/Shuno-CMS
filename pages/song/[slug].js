@@ -1,30 +1,46 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Layout from '../../components/layout'
 import SongLayout from '../../components/Song/SongLayout'
 import DeleteSong from '../../components/Song/DeleteSong'
 import UpdateSong from '../../components/Song/UpdateSong'
+import axios from 'axios'
+import { baseUrl } from '../../utils/constants'
+import { useRouter } from 'next/router'
 
  
 
-function Song({ song }) {
+function Song() {
+
+
+  const [song, setSong] = React.useState({})
+  const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState(null) 
+
+  const router = useRouter();
+ 
+
+  useEffect(() => {
+    console.log(router.query.slug);
+     axios.get(baseUrl + `/songs/` + router.query.slug).then((res) => {
+      console.log(res.data.song.song)
+      setSong(res.data.song.song)
+    }
+    ).catch((err) => {
+      console.log(err)
+    })
+  }, [router.query.slug])
+    
   return (
     <Layout meta={{ name: song?.name || 'Song' }}>
       <div>
         <header className="my-3 flex flex-col items-center justify-between rounded-md md:flex-row">
           <h1 className="mb-3 truncate text-xl font-bold text-gray-700">
-            <span className="mr-2 text-sm font-medium text-gray-500">
-              Song:{' '}
-            </span>
-            {song?.name}
+            Song Details
           </h1>
           <div className="flex items-center space-x-2">
             <UpdateSong song={song} />
-            <DeleteSong
-              disabled={
-                song?.id === 'rec_ce0bsgt8oiq6e92pa810' ||
-                song?.id === 'rec_ce0btqp99gj1h1lgvno0'
-              }
-              songId={song?.id}
+            <DeleteSong 
+              slug={song?.slug}
             />
           </div>
         </header>
@@ -41,31 +57,4 @@ function Song({ song }) {
 }
 
 export default Song
-
-export async function getStaticProps({ params }) {
-  try {
-    const songs = []
-    const data = songs
-      .filter({
-        id: params.id,
-      })
-      .getMany()
-    return {
-      props: { song: data[0] },
-    }
-  } catch (error) {
-    return {
-      props: {},
-    }
-  }
-}
-
-export async function getStaticPaths() {
-  const songs = []
-  return {
-    paths: songs.map((item) => ({
-      params: { id: item.id },
-    })),
-    fallback: true,
-  }
-}
+ 

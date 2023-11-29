@@ -12,7 +12,7 @@ const Section = ({ title, children, ...props }) => (
 const ArtistLayout = ({ artist }) => {
   return (
     <div className="mt-6 flex flex-col gap-4 overflow-auto md:flex-row">
-      <div>   <Section title={'Artist'}>
+      <div className='w-full lg:w-1/2' >   <Section title={'Artist'}>
         {artist.primaryImage ? (
              <img
              height={150}

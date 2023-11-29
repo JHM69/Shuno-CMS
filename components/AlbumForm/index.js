@@ -22,56 +22,76 @@ const AlbumForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
     setValue,
     watch
   } = useForm()
+
+  const [artists1 , setArtists1] = useState([]);
+  const [artists2 , setArtists2] = useState([]);
+  const [artists3 , setArtists3] = useState([]);
+
+  const [search1, setSearch1] = useState('');
+  const [search2, setSearch2] = useState('');
+  const [search3, setSearch3] = useState('');
+
+  useEffect(() => {
+    
+    axios.get(baseUrl+`/artists?search=`+search1).then((res) => { 
+      setArtists1(res.data.artists) 
+      }
+      ).catch((err) => {
+        console.log(err)
+      })
+}, [search1]);
+
+useEffect(() => {
+
+  axios.get(baseUrl+`/artists?search=`+search2).then((res) => {
+    setArtists2(res.data.artists)
+    }
+    ).catch((err) => {
+      console.log(err)
+    })
+}, [search2]);
+
+
+
+useEffect(() => {
+
+  axios.get(baseUrl+`/artists?search=`+search3).then((res) => {
+    setArtists3(res.data.artists)
+    }
+    ).catch((err) => {
+      console.log(err)
+    })
+}, [search3]);
  
 
   const onSubmit = handleSubmit(async (data) => {
     await onFormSubmit(data)
-    reset()
+    //reset()
   })
 
   useEffect(() => {
     if (defaultValues) {
       setValue('name', defaultValues.name) 
-      setValue('year', defaultValues.year)
+      setValue('coverImage', defaultValues.coverImage)
+      setValue('releaseDate', new Date(defaultValues.releaseDate).toISOString().split('T')[0])
       setValue('duration', defaultValues.duration)
       setValue('label', defaultValues.label)
       setValue('language', defaultValues.language)
       setValue('contentType', defaultValues.contentType)
-      setValue('genres', defaultValues.genres.map((genre) => genre.slug))
-      setValue('primaryArtist', defaultValues.primaryArtist.map((artist) => artist.slug))
-      setValue('featuredArtists', defaultValues.featuredArtists.map((artist) => artist.slug))
-      setValue('album', defaultValues.album.slug)
-      setValue('hasLyrics', defaultValues.hasLyrics)
-      setValue('url', defaultValues.url)
-      setValue('copyRight', defaultValues.copyRight)
-      setValue('downloadUrls', defaultValues.downloadUrls)
-      setValue('origin', defaultValues.origin)
-      setValue('primaryImage', defaultValues.primaryImage)
-      setValue('lyricsSnippet', defaultValues.lyricsSnippet)
-      setValue('encryptedMediaUrl', defaultValues.encryptedMediaUrl)
-      setValue('encryptedMediaPath', defaultValues.encryptedMediaPath)
-      setValue('mediaPreviewUrl', defaultValues.mediaPreviewUrl)
-      setValue('permaUrl', defaultValues.permaUrl)
-      setValue('kbps320', defaultValues.kbps320)
-      setValue('isDolbyContent', defaultValues.isDolbyContent)
-
+      setValue('genres', defaultValues.genres?.map((genre) => genre.slug))
+      setValue('isPremium', defaultValues.isPremium ? 'true' : 'false')
+      setValue('price', defaultValues.price)
+      setValue('currency', defaultValues.currency)
+      setValue('trillerAvailable', defaultValues.trillerAvailable? 'true' : 'false')
+      setValue('trillerUrl', defaultValues.trillerUrl)
+      setValue('mainArtistSlug', defaultValues.mainArtistSlug)
+      setValue('primaryArtists', defaultValues.primaryArtists?.map((artist) => artist.slug) )
+      setValue('featuredArtists', defaultValues.featuredArtists?.map((artist) => artist.slug) )
+    
     }
   }, [defaultValues, setValue])
 
-  const [artists , setArtists] = useState([]);
-
-  const [search, setSearch] = useState('');
-
-  useEffect(() => {
-    
-    axios.get(baseUrl+`/artists?search=`+search).then((res) => { 
-      setArtists(res.data.artists)
-      }
-      ).catch((err) => {
-        console.log(err)
-      })
-   
-}, [search]);
+ 
 
 
 
@@ -105,14 +125,16 @@ const AlbumForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
               },
             })}
           />
- 
+
+
+
           <Input
-            name="year"
-            label="Publish Year (optional)"
+            name="releaseDate"
+            label="Publish Date (optional)"
             placeholder="2012"
             type="date"
-            error={errors.year ? errors.year.message : false}
-            register={register('year')}
+            error={errors.releaseDate ? errors.releaseDate.message : false}
+            register={register('releaseDate')}
           />
           <Input
             name="duration"
@@ -246,6 +268,149 @@ const AlbumForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
            
         </FormSection>
      </form>
+
+      <FormSection title={'Artist'}>
+
+      <div className=' outline-1 border-2 rounded-xl p-3'>
+<div className='flex items-center '>
+        <label className='w-1/5'>Search</label>
+         <input
+            className='w-3/5 p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-gray-200'
+            name="search"
+            label="Search Artist or Bands"
+            placeholder="Shironamhin"
+            type="textarea"
+            value={search1} 
+            onChange={(e) => setSearch1(e.target.value)}
+           
+          />
+          <button   onClick={() => {
+            setSearch1('') 
+          }} type="button" className="w-1/5">
+            Clear
+          </button>
+
+         </div>
+
+         <Select
+            name="mainArtistSlug"
+            label="Select Main Artist"
+            placeholder="Artcell"
+            error={errors.mainArtistSlug ? errors.mainArtistSlug.message : false}
+            register={register('mainArtistSlug', {
+              required: {
+                value: true,
+                message: 'You must select Primary artist.',
+              },
+            })}
+          >
+             {
+                artists1?.map((artist) => (
+                  <option key={artist.slug} value={artist.slug}>
+                      {artist.name}
+                  </option>
+                ))
+             }
+            
+          </Select>
+
+
+
+         
+</div>
+
+          <div className=' outline-1 border-2 my-2 rounded-xl p-3'>
+<div className='flex items-center '>
+        <label className='w-1/5'>Search</label>
+         <input
+            className='w-3/5 p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-gray-200'
+            name="search"
+            label="Search Artist or Bands"
+            placeholder="Shironamhin"
+            type="textarea"
+            value={search2} 
+            onChange={(e) => setSearch2(e.target.value)}
+          />
+          <button   onClick={() => {
+            setSearch2('') 
+          }} type="button" className="w-1/5">
+            Clear
+          </button>
+
+         </div>
+<MultipleSelect
+            multiple={true}
+            name="primaryArtists"
+            label="Select Primary Artists"
+            placeholder="Linkon D Costa"
+            error={errors.primaryArtists ? errors.primaryArtists.message : false}
+            register={register('primaryArtists')}
+          >
+             {
+                artists2?.map((artist) => (
+                  <option key={artist.slug} value={artist.slug}>
+                      {artist.name}
+                  </option>
+                ))
+             }
+            
+          </MultipleSelect>
+
+          </div>
+
+
+          <div className=' outline-1 border-2 rounded-xl p-3'>
+<div className='flex items-center '>
+        <label className='w-1/5'>Search</label>
+         <input
+            className='w-3/5 p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-gray-200'
+            name="search"
+            label="Search Artist or Bands"
+            placeholder="Shironamhin"
+            type="textarea"
+            value={search3} 
+            onChange={(e) => setSearch3(e.target.value)}
+          />
+          <button   onClick={() => {
+            setSearch3('') 
+          }} type="button" className="w-1/5">
+            Clear
+          </button>
+
+         </div>
+
+          <MultipleSelect
+            multiple={true}
+            name="featuredArtists"
+            label="Select Featured Artist"
+            placeholder="Jahangir Hossain"
+            error={errors.featuredArtists ? errors.featuredArtists.message : false}
+            register={register('featuredArtists')} 
+          >
+             {
+                artists3?.map((artist) => (
+                  <option key={artist.slug} value={artist.slug}>
+                      {artist.name}
+                  </option>
+                ))
+             }
+            
+          </MultipleSelect>
+
+          </div>
+       
+
+
+
+
+
+
+
+
+
+
+
+        </FormSection>
       
       <FormSection title={'More Info'}>
           <RadioSelect
@@ -257,7 +422,8 @@ const AlbumForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
 
                       {
                         watch('isPremium') === 'true' && (
-                          <Input
+                          <div className='flex flex-row gap-4'>
+                            <Input
                             name="price"
                             label="Price"
                             placeholder="1200"
@@ -269,6 +435,20 @@ const AlbumForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
                             }
                             register={register('price')}
                           />
+                          <Select 
+                          name="currency"
+                          label="Currency"
+                          error={errors.currency ? errors.currency.message : false}
+                          register={register('currency')}
+                        >
+                          <option value="BDT">BDT</option>
+                          <option value="USD">USD</option>
+                          <option value="INR">INR</option>
+                          <option value="EUR">EUR</option>
+                          <option value="CAD">CAD</option>
+                          <option value="JPY">JPY</option>
+                        </Select>
+                          </div>
                         )
                       }
 
@@ -279,19 +459,28 @@ const AlbumForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
                 error={errors.trillerAvailable ? errors.trillerAvailable.message : false}
               />
 
-              <Input
-                  name="url"
-                  label="URL of the album"
-                  placeholder="Example: https://www.youtube.com/watch?v=..."
-                  type="text"
-                  error={errors.url ? errors.url.message : false}
-                  register={register('url', {
-                    required: {
-                      value: true,
-                      message: 'You must add the URL of your album.',
-                    },
-                  })}
-                />
+              {
+                        watch('trillerAvailable') === 'true' && (
+                          <div className='flex flex-row'>
+                            <Input
+                            name="trillerUrl"
+                            label="Triller URL"
+                            placeholder="https://www.youtube.com/watch?v=9bZkp7q19f0"
+                            type="text"
+                            error={
+                              errors.trillerUrl
+                                ? errors.trillerUrl.message
+                                : false
+                            }
+                            register={register('trillerUrl')}
+                          />
+                          </div>
+                        )
+                      
+
+              }
+
+              
    
       </FormSection>
       

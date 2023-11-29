@@ -3,8 +3,8 @@ import ArtistItems from '../components/Artists/ArtistItems'
 import { useEffect, useState } from 'react'
 import ArtistItemsSkeleton from '../components/Artists/ArtistItemsSkeleton' 
 import AddArtist from '../components/Artist/AddArtist' 
-import { baseUrl } from '../utils/constants'
 import axios from 'axios'
+import { baseUrl } from '../utils/constants'
 
 function Artists() {
   const [loading, setLoading] = useState(false)

@@ -25,47 +25,72 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
   useEffect(() => {
     if (defaultValues) {
       setValue('name', defaultValues.name) 
-      setValue('year', defaultValues.year)
+      setValue('releaseDate', new Date(defaultValues.releaseDate).toISOString().split('T')[0])
       setValue('primaryImage', defaultValues.primaryImage)
       setValue('duration', defaultValues.duration)
       setValue('label', defaultValues.label)
       setValue('language', defaultValues.language)
       setValue('contentType', defaultValues.contentType)
-      setValue('genres', defaultValues.genres.map((genre) => genre.slug))
-      setValue('primaryArtist', defaultValues.primaryArtist.map((artist) => artist.slug))
-      setValue('featuredArtists', defaultValues.featuredArtists.map((artist) => artist.slug))
+      setValue('genres', defaultValues.genres?.map((genre) => genre.slug))
+      setValue('primaryArtist', defaultValues?.primaryArtist?.map((artist) => artist.slug))
+      setValue('featuredArtists', defaultValues?.featuredArtists?.map((artist) => artist.slug))
       setValue('album', defaultValues.album.slug)
       setValue('hasLyrics', defaultValues.hasLyrics)
+      setValue('lyricsSnippet', defaultValues.lyricsSnippet)
       setValue('url', defaultValues.url)
       setValue('copyRight', defaultValues.copyRight)
-      setValue('downloadUrls', defaultValues.downloadUrls)
+      setValue('downloadUrls', defaultValues?.downloadUrls?.map((url) => url))
       setValue('origin', defaultValues.origin)
       setValue('lyricsSnippet', defaultValues.lyricsSnippet)
       setValue('encryptedMediaUrl', defaultValues.encryptedMediaUrl)
       setValue('encryptedMediaPath', defaultValues.encryptedMediaPath)
       setValue('mediaPreviewUrl', defaultValues.mediaPreviewUrl)
       setValue('permaUrl', defaultValues.permaUrl)
-      setValue('kbps320', defaultValues.kbps320)
-      setValue('isDolbyContent', defaultValues.isDolbyContent)
+      setValue('kbps320', defaultValues.kbps320? "true" : "false")
+      setValue('isDolbyContent', defaultValues.isDolbyContent ? "true" : "false")
 
     }
   }, [defaultValues, setValue])
 
-  const [artists , setArtists] = useState([]);
-
-  const [search, setSearch] = useState('');
+  const [artists2 , setArtists2] = useState([]);
+  const [artists3 , setArtists3] = useState([]);
+  const [albums , setAlbums] = useState([]);
+ 
+  const [search2, setSearch2] = useState('');
+  const [search3, setSearch3] = useState('');
+  const [search1, setSearch1] = useState('');
 
   useEffect(() => {
-    
-    axios.get(baseUrl+`/artists?search=`+search).then((res) => { 
-      setArtists(res.data.artists)
+    axios.get(baseUrl+`/albums?search=`+search1).then((res) => {
+      setAlbums(res.data.albums)
       }
       ).catch((err) => {
         console.log(err)
       })
-   
-}, [search]);
+  }, [search1]);
 
+useEffect(() => {
+
+  axios.get(baseUrl+`/artists?search=`+search2).then((res) => {
+    setArtists2(res.data.artists)
+    }
+    ).catch((err) => {
+      console.log(err)
+    })
+}, [search2]);
+
+
+
+useEffect(() => {
+
+  axios.get(baseUrl+`/artists?search=`+search3).then((res) => {
+    setArtists3(res.data.artists)
+    }
+    ).catch((err) => {
+      console.log(err)
+    })
+}, [search3]);
+ 
   
 
   const onSubmit = handleSubmit(async (data) => {
@@ -75,7 +100,6 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
 
   return (
     <div {...props} className="flex flex-col space-y-6">
-      <form>
         <FormSection defaultOpen={true} title={'Song Information'}>
           <Input
             name="name"
@@ -105,12 +129,12 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
           />
  
           <Input
-            name="year"
-            label="Publish Year (optional)"
-            placeholder="Publish year of the song..."
-            type="text"
-            error={errors.year ? errors.year.message : false}
-            register={register('year')}
+            name="releaseDate"
+            label="Publish Date (optional)"
+            placeholder="Publish date of the song..."
+            type="date"
+            error={errors.releaseDate ? errors.releaseDate.message : false}
+            register={register('releaseDate')}
           />
           <Input
             name="duration"
@@ -246,86 +270,142 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
 
            
         </FormSection>
-      </form>
       <FormSection title={'Artist Info'}>
 
         
-      <MultipleSelect
-            name="primaryArtist"
-            label="Primary Artist (one or more)"
-            error={errors.primaryArtist ? errors.primaryArtist.message : false}
-            multiple
-            register={register('primaryArtist', {
-              required: {
-                value: true,
-                message: 'You must select Primary artist.',
-              },
-            })}
-          >
+      <div className=' outline-1 border-2  rounded-xl p-3'>
+<div className='flex items-center '>
+        <label className='w-1/5'>Search</label>
+         <input
+            className='w-3/5 p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-gray-200'
+            name="search"
+            label="Search Artist or Bands"
+            placeholder="Shironamhin"
+            type="textarea"
+            value={search2} 
+            onChange={(e) => setSearch2(e.target.value)}
+          />
+          <button   onClick={() => {
+            setSearch2('') 
+          }} type="button" className="w-1/5">
+            Clear
+          </button>
 
+         </div>
+<MultipleSelect
+            multiple={true}
+            name="primaryArtists"
+            label="Select Primary Artists"
+            placeholder="Linkon D Costa"
+            error={errors.primaryArtists ? errors.primaryArtists.message : false}
+            register={register('primaryArtists')}
+          >
              {
-                artists?.map((artist) => (
-                  <OptionWithCheckbox key={artist.slug} value={artist.slug}>
+                artists2?.map((artist) => (
+                  <option key={artist.slug} value={artist.slug}>
                       {artist.name}
-                  </OptionWithCheckbox>
+                  </option>
                 ))
              }
             
           </MultipleSelect>
 
+          </div>
+
+
+          <div className=' outline-1 my-2 border-2 rounded-xl p-3'>
+<div className='flex items-center '>
+        <label className='w-1/5'>Search</label>
+         <input
+            className='w-3/5 p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-gray-200'
+            name="search"
+            label="Search Artist or Bands"
+            placeholder="Shironamhin"
+            type="textarea"
+            value={search3} 
+            onChange={(e) => setSearch3(e.target.value)}
+          />
+          <button   onClick={() => {
+            setSearch3('') 
+          }} type="button" className="w-1/5">
+            Clear
+          </button>
+
+         </div>
+
           <MultipleSelect
+            multiple={true}
             name="featuredArtists"
-            label="Featured Artists (one or more) (optional)"
-            error={
-              errors.featuredArtists ? errors.featuredArtists.message : false
-            }
-            multiple
-            register={register('featuredArtists')}
+            label="Select Featured Artist"
+            placeholder="Jahangir Hossain"
+            error={errors.featuredArtists ? errors.featuredArtists.message : false}
+            register={register('featuredArtists')} 
           >
              {
-                artists?.map((artist) => (
-                  <OptionWithCheckbox key={artist.slug} value={artist.slug}>
+                artists3?.map((artist) => (
+                  <option key={artist.slug} value={artist.slug}>
                       {artist.name}
-                  </OptionWithCheckbox>
+                  </option>
                 ))
              }
+            
           </MultipleSelect>
 
+          </div>
+       
 
+          <div className=' outline-1 border-2 rounded-xl p-3'>
+<div className='flex items-center '>
+        <label className='w-1/5'>Album: </label>
+         <input
+            className='w-3/5 p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-gray-200'
+            name="search"
+            label="Search Albums"
+            placeholder="Onnosomy"
+            type="textarea"
+            value={search1} 
+            onChange={(e) => setSearch1(e.target.value)}
+          />
+          <button   onClick={() => {
+            setSearch1('') 
+          }} type="button" className="w-1/5">
+            Clear
+          </button>
+
+         </div>
           
           <Select
-            name="album"
-            label="Name of the Album"
-            error={errors.album ? errors.album.message : false}
-            register={register('album', {
+            name="albumSlug"
+            label="Select Album"
+            error={errors.albumSlug ? errors.albumSlug.message : false}
+            register={register('albumSlug', {
               required: {
                 value: true,
                 message: 'You must add the name of your song.',
               },
             })}
           >
-            <option value="">Select Album</option>
-            <option value="album-1">Album 1</option>
-            <option value="album-2">Album 2</option>
-            <option value="album-3">Album 3</option>
+            
+            {
+                albums?.map((album) => (
+                  <option key={album.slug} value={album.slug}>
+                      {album.name}
+                  </option>
+                ))
+            }
           </Select>
+
+          </div>
+        
 
          
       </FormSection>
       <FormSection title={'Media Info'}>
 
-
-      <RadioSelect
-            name="hasLyrics"
-            label="Has Lyrics ?"
-            register={register('hasLyrics')}
-            error={errors.hasLyrics ? errors.hasLyrics.message : false}
-          />
-
-          <Input
+      <Input
             name="url"
-            label="URL of the song"
-            placeholder="Example: https://www.youtube.com/watch?v=..."
+            label="Song URL (Must)"
+            placeholder="cdn.spotify.com/..."
             type="text"
             error={errors.url ? errors.url.message : false}
             register={register('url', {
@@ -334,6 +414,15 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
                 message: 'You must add the URL of your song.',
               },
             })}
+          />
+
+
+      <RadioSelect
+            name="hasLyrics"
+            label="Has Lyrics ?"
+            defaultValues={false}
+            register={register('hasLyrics')}
+            error={errors.hasLyrics ? errors.hasLyrics.message : false}
           />
 
           <Input
@@ -345,8 +434,7 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
             register={register('copyright')}
           />
          
-
-      <Input
+          <Input
             name="downloadUrls"
             label="Download URL of the song (optional)"
             placeholder="Use comma to separate multiple URLs..."
@@ -358,15 +446,10 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
           <Input
             name="origin"
             label="Origin"
-            placeholder="Origin of the song..."
+            placeholder="Local or Foreign..."
             type="text"
             error={errors.origin ? errors.origin.message : false}
-            register={register('origin', {
-              required: {
-                value: true,
-                message: 'You must add the origin of your song.',
-              },
-            })}
+            register={register('origin' )}
           />
 
 
@@ -378,36 +461,8 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
             placeholder="Lyrics snippet of the song..."
             type="textarea"
             hight = "500px"
-            
             register={register('lyricsSnippet')}
-          />
-
-          <Input
-            name="encryptedMediaUrl"
-            label="Encrypted Media URL!"
-            placeholder="Encrypted media URL of the song..."
-            type="text"
-            error={
-              errors.encryptedMediaUrl
-                ? errors.encryptedMediaUrl.message
-                : false
-            }
-            register={register('encryptedMediaUrl')}
-          />
-
-          <Input
-            name="encryptedMediaPath"
-            label="Encrypted Media Path!"
-            placeholder="Encrypted media path of the song..."
-            type="text"
-            error={
-              errors.encryptedMediaPath
-                ? errors.encryptedMediaPath.message
-                : false
-            }
-            register={register('encryptedMediaPath')}
-          />
-
+          /> 
           <Input
             name="mediaPreviewUrl"
             label="Media Preview URL"
@@ -421,7 +476,7 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
 
           <Input
             name="permaUrl"
-            label="Perma URL"
+            label="Perma URL !"
             placeholder="Perma URL of the song..."
             type="text"
             error={errors.permaUrl ? errors.permaUrl.message : false}
@@ -441,14 +496,12 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
               error={errors.kbps320 ? errors.kbps320.message : false}
             />
 
-            <RadioSelect
-              className="w-full md:w-1/2"
+             <RadioSelect
+              className="w-full border-b border-gray-300 md:w-1/2 md:border-b-0 md:border-r-2"
               name="isDolbyContent"
-              label="Is Dolby Content?"
+              label="Kbps320?"
               register={register('isDolbyContent')}
-              error={
-                errors.isDolbyContent ? errors.isDolbyContent.message : false
-              }
+              error={errors.isDolbyContent ? errors.isDolbyContent.message : false}
             />
           </div>
       </FormSection>

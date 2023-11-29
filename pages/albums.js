@@ -2,9 +2,9 @@ import Layout from '../components/layout'
 import AlbumItems from '../components/Albums/AlbumItems'
 import { useEffect, useState } from 'react'
 import AlbumItemsSkeleton from '../components/Albums/AlbumItemsSkeleton' 
-import AddAlbum from '../components/Album/AddAlbum' 
-import { baseUrl } from '../utils/constants'
+import AddAlbum from '../components/Album/AddAlbum'  
 import axios from 'axios'
+import { baseUrl } from '../utils/constants'
 
 function Albums() {
   const [loading, setLoading] = useState(false)

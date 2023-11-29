@@ -4,6 +4,7 @@ import React, { Fragment, useState } from 'react'
 import Button from '../common/Button'
 import { Close } from '../common/icons/Close'
 import SongForm from '../SongForm'
+import { baseUrl } from '../../utils/constants'
 
 const AddSong = ({ props }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -11,15 +12,18 @@ const AddSong = ({ props }) => {
   const handleOpen = () => setIsOpen(true)
   const onFormSubmit = async (data) => {
     try {
-      await fetch(baseUrl+`/songs/createSong`, {
+      console.log(data)
+      const user = JSON.parse(localStorage.getItem('user'));
+      await fetch(baseUrl+`/songs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`
         },
         body: JSON.stringify(data),
       }).then(() => {
-        handleClose()
-        window.location.reload()
+        // handleClose()
+        // window.location.reload()
       })
     } catch (error) {
       console.log(error)

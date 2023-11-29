@@ -15,7 +15,7 @@ const AddAlbum = ({ props }) => {
     console.log(data)
     try { 
       const user = JSON.parse(localStorage.getItem('user'));
-      
+      console.log(data)
       await fetch(baseUrl+`/albums`, {
         method: 'POST',
         headers: {
@@ -24,8 +24,8 @@ const AddAlbum = ({ props }) => {
         },
         body: JSON.stringify(data),
       }).then(() => {
-        handleClose()
-        window.location.reload()
+        // handleClose()
+        // window.location.reload()
       })
     } catch (error) {
       console.log(error)
