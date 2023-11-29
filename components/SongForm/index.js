@@ -48,7 +48,6 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
       setValue('permaUrl', defaultValues.permaUrl)
       setValue('kbps320', defaultValues.kbps320? "true" : "false")
       setValue('isDolbyContent', defaultValues.isDolbyContent ? "true" : "false")
-
     }
   }, [defaultValues, setValue])
 
