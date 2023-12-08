@@ -59,11 +59,11 @@ const ArtistLayout = ({ artist }) => {
          
         <Section title={'Songs'}>
           {artist.songs?.length ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2">
+            <div className="flex flex-col items-start">
               {
                 artist.songs?.map((song, idx) => (
                   <div key={idx} className="mb-2">
-                    <Link href={`/song/${song.id}`}>
+                    <Link href={`/song/${song.slug}`}>
                       <a className="flex items-center space-x-2">
                         <div className="flex-shrink-0 w-10 h-10">
                           <img
