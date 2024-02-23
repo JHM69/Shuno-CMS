@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import React, { Fragment, useState } from 'react'
-
+import { getBaseUrl } from '../../utils/url'
 import Button from '../common/Button'
 import { Close } from '../common/icons/Close'
 import AlbumForm from '../AlbumForm'

@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react'
 import ArtistItemsSkeleton from '../components/Artists/ArtistItemsSkeleton' 
 import AddArtist from '../components/Artist/AddArtist' 
 import axios from 'axios'
-import { getBaseUrl() } from '../utils/constants'
-
+import { getBaseUrl } from '../utils/url'
 function Artists() {
   const [loading, setLoading] = useState(false)
   const [artists, setArtists] = useState([])

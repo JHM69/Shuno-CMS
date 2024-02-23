@@ -4,7 +4,7 @@ import React, { Fragment, useState } from 'react'
 import Button from '../common/Button'
 import { Close } from '../common/icons/Close'
 import PlaylistForm from '../PlaylistForm'
-
+import { getBaseUrl } from '../../utils/url'
 const AddPlaylist = ({ props }) => {
   const [isOpen, setIsOpen] = useState(false)
   const handleClose = () => setIsOpen(false)

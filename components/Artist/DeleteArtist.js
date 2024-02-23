@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import React, { Fragment, useState } from 'react'
 
 import Button from '../common/Button'
-
+import { getBaseUrl } from '../../utils/url'
 
 const DeleteArtist = ({ slug, ...props }) => {
   const [isOpen, setIsOpen] = useState(false)

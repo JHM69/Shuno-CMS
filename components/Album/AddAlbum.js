@@ -4,7 +4,7 @@ import React, { Fragment, useState } from 'react'
 import Button from '../common/Button'
 import { Close } from '../common/icons/Close'
 import AlbumForm from '../AlbumForm'
-
+import { getBaseUrl } from '../../utils/url'
 
 const AddAlbum = ({ props }) => {
   const [isOpen, setIsOpen] = useState(false)

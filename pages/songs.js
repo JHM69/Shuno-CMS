@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react'
 import SongItemsSkeleton from '../components/Songs/SongItemsSkeleton' 
 import AddSong from '../components/Song/AddSong' 
 import axios from 'axios'
-import { getBaseUrl() } from '../utils/constants'
-
+import { getBaseUrl } from '../utils/url'
 function Songs() {
   const [loading, setLoading] = useState(false)
   const [songs, setSongs] = useState([])

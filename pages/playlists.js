@@ -3,7 +3,7 @@ import PlaylistItems from '../components/Playlists/PlaylistItems'
 import { useEffect, useState } from 'react'
 import PlaylistItemsSkeleton from '../components/Playlists/PlaylistItemsSkeleton' 
 import AddPlaylist from '../components/Playlist/AddPlaylist'
-import { getBaseUrl() } from '../utils/constants'
+import { getBaseUrl } from '../utils/url'
 
 function Playlists() {
   const [loading, setLoading] = useState(false)

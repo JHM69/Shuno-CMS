@@ -1,13 +1,10 @@
 import React from 'react'
 import Head from 'next/head'
-
+import { getBaseUrl } from '../../utils/url'
 const makeTitle = (title, name) =>
   title === name || !name ? title : `${title} | ${name}`
 
-const getBaseUrl() =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000'
-    : ''
+ 
 
 const Meta = ({
   title = 'Shuno CMS',

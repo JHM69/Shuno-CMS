@@ -10,7 +10,7 @@ import RadioSelect from '../common/RadioSelect'
 import FormSection from '../common/Section'
 import MediaUpload from '../common/MediaUpload'
 import ThumbnailUpload from '../common/ThumbnailUpload'
-
+import { getBaseUrl } from '../../utils/url'
 import axios from 'axios'
 
 const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
