@@ -3,13 +3,9 @@ import Button from '../components/common/Button'
 import Layout from '../components/layout'
 import { useState } from 'react'  
 import { useAuth } from '../components/Context/AuthContext'
-
-const url = process.env.API
-
-export const getBaseUrl = () => {
-  return url;
-}
-
+import { getBaseUrl } from '../utils/url'
+import axios from 'axios'
+ 
 
 function Index() { 
   const [loading, setLoading] = useState(false)
@@ -38,21 +34,19 @@ function Index() {
         }
       }
       setLoading(true)
-      const res = await fetch(getBaseUrl()+'/users/login', {
-        method: 'POST',
+      const response = await axios.post(getBaseUrl() + '/users/login', dataInput, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(dataInput),
-      })
-
-      if(res.status === 200) {
-        const data = await res.json()
-        localStorage.setItem('user', JSON.stringify(data.user))
+      });
+  
+      if (response.status === 200) {
+        const { data } = response;
+        localStorage.setItem('user', JSON.stringify(data.user));
         login();
         document.cookie = `Token=${data.user.token}; Secure; HttpOnly; SameSite=Strict`;
- 
-        window.location.href = '/'
+  
+        window.location.href = '/';
       } else {
         console.log(res.json())
         alert('Wrong username or password')

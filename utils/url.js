@@ -1,4 +1,7 @@
 
+const url = process.env.API;
+
 export const getBaseUrl = () => {
-    return process.env.API;
+    console.log(process.env.API);
+    return process.env.API || 'http://localhost:5000/api';
 }

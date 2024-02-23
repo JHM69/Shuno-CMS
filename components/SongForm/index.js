@@ -3,16 +3,12 @@ import { useForm } from 'react-hook-form'
 import Button from '../common/Button'
 import Input from '../common/Input'
 import Select from '../common/Select'
-import { MultipleSelect, OptionWithCheckbox } from '../common/MultipleSelect'
-import Checkbox from '../common/Checkbox'
-import RadioSelect from '../common/RadioSelect'
-
-import FormSection from '../common/Section'
-import MediaUpload from '../common/MediaUpload'
-import ThumbnailUpload from '../common/ThumbnailUpload'
+import { MultipleSelect } from '../common/MultipleSelect' 
+import RadioSelect from '../common/RadioSelect' 
+import FormSection from '../common/Section' 
 import { getBaseUrl } from '../../utils/url'
 import axios from 'axios'
-
+import { uploadImage, uploadAudio } from '../../utils/upload'
 const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
   const {
     register,
@@ -20,6 +16,7 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
     formState: { errors },
     reset,
     setValue,
+    watch
   } = useForm()
 
   useEffect(() => {
@@ -50,6 +47,39 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
       setValue('isDolbyContent', defaultValues.isDolbyContent ? "true" : "false")
     }
   }, [defaultValues, setValue])
+
+
+  
+  const primaryImageFile = watch("primaryImageFile");
+
+  // This useEffect handles the file upload when a new file is selected
+  useEffect(() => {
+    if (primaryImageFile && primaryImageFile.length > 0) {
+      const file = primaryImageFile[0];
+      uploadImage(file).then(fileUrl => {
+        // Assuming the uploadImage function returns the URL of the uploaded image
+        setValue('primaryImage', fileUrl); // Update the form's primaryImage field with the uploaded image URL
+      }).catch(error => {
+        console.error("Error uploading image:", error);
+      });
+    }
+  }, [primaryImageFile, setValue]);
+
+
+  const urlFile = watch("urlFile");
+
+  // This useEffect handles the file upload when a new file is selected
+  useEffect(() => {
+    if (urlFile && urlFile.length > 0) {
+      const file = urlFile[0];
+      uploadAudio(file).then(fileUrl => {
+        // Assuming the uploadAudio function returns the URL of the uploaded image
+        setValue('url', fileUrl); // Update the form's url field with the uploaded image URL
+      }).catch(error => {
+        console.error("Error uploading image:", error);
+      });
+    }
+  }, [urlFile, setValue]);
 
   const [artists2 , setArtists2] = useState([]);
   const [artists3 , setArtists3] = useState([]);
@@ -113,19 +143,43 @@ useEffect(() => {
               },
             })}
           />
-         <Input
-            name="primaryImage"
-            label="Image URL"
-            placeholder="Image URL..."
-            type="text"
-            error={errors.primaryImage ? errors.primaryImage.message : false}
-            register={register('primaryImage', {
-              required: {
-                value: true,
-                message: 'You must add the primaryImage of your artist.',
-              },
-            })}
-          />
+
+
+<div className="flex flex-col gap-4">
+                <label htmlFor="primaryImageFile">Upload artist Image: </label> 
+                
+                <input
+                  id="primaryImageFile"
+                  name="primaryImageFile"
+                  type="file"
+                  accept="image/*"
+                  {...register('primaryImageFile', {
+                    required: {
+                      value: false,
+                      message: 'You must select an image to upload.',
+                    },
+                  })}
+                />
+
+                {errors.primaryImageFile && <p>{errors.primaryImageFile.message}</p>}
+
+                {/* Hidden Input to store the Image URL after upload */}
+                <input
+                  type="hidden"
+                  {...register('primaryImage')}
+                />
+
+                {
+                    defaultValues?.primaryImage || watch('primaryImage') ? (
+                    <img
+                      className="w-1/2"
+                      src={watch('primaryImage') || defaultValues?.primaryImage || primaryImageFile?.length > 0 ? URL.createObjectURL(primaryImageFile[0]) : null}
+                      alt="Primary Image"
+                    />
+                  ) : null
+                }
+
+            </div>
  
           <Input
             name="releaseDate"
@@ -273,7 +327,7 @@ useEffect(() => {
 
         
       <div className=' outline-1 border-2  rounded-xl p-3'>
-<div className='flex items-center '>
+       <div className='flex items-center '>
         <label className='w-1/5'>Search</label>
          <input
             className='w-3/5 p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-gray-200'
@@ -291,7 +345,7 @@ useEffect(() => {
           </button>
 
          </div>
-<MultipleSelect
+          <MultipleSelect
             multiple={true}
             name="primaryArtists"
             label="Select Primary Artists"
@@ -313,7 +367,7 @@ useEffect(() => {
 
 
           <div className=' outline-1 my-2 border-2 rounded-xl p-3'>
-<div className='flex items-center '>
+        <div className='flex items-center '>
         <label className='w-1/5'>Search</label>
          <input
             className='w-3/5 p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-gray-200'
@@ -401,7 +455,40 @@ useEffect(() => {
       </FormSection>
       <FormSection title={'Media Info'}>
 
-      <Input
+
+
+      <div className="flex flex-col gap-4">
+                <label htmlFor="urlFile">Upload content audio </label> 
+                
+                <input
+                  id="urlFile"
+                  name="urlFile"
+                  type="file"
+                  accept="audio/*"
+                  {...register('urlFile', {
+                    required: {
+                      value: false,
+                      message: 'You must select an audio to upload.',
+                    },
+                  })}
+                />
+
+                {errors.urlFile && <p>{errors.urlFile.message}</p>}
+
+                {/* Hidden Input to store the Image URL after upload */}
+                <input
+                  type="hidden"
+                  {...register('url')}
+                />
+
+                {
+                    defaultValues?.url || watch('url') ? (
+                    <audio className="w-1/2" src={watch('url') || defaultValues?.url || urlFile?.length > 0 ? URL.createObjectURL(urlFile[0]) : null} controls/> 
+                  ) : null 
+                }
+            </div>
+
+      {/* <Input
             name="url"
             label="Song URL (Must)"
             placeholder="cdn.spotify.com/..."
@@ -413,7 +500,7 @@ useEffect(() => {
                 message: 'You must add the URL of your song.',
               },
             })}
-          />
+          /> */}
 
 
       <RadioSelect

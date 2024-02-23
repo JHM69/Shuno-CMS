@@ -11,7 +11,6 @@ const AddArtist = ({ props }) => {
   const handleClose = () => setIsOpen(false)
   const handleOpen = () => setIsOpen(true)
   const onFormSubmit = async (data) => {
-   
     console.log(data)
     try { 
       const user = JSON.parse(localStorage.getItem('user'));
@@ -23,9 +22,14 @@ const AddArtist = ({ props }) => {
           'Authorization': `Bearer ${user.token}`,
         },
         body: JSON.stringify(data),
-      }).then(() => {
-        handleClose()
-        window.location.reload()
+      }).then((res) => {
+        if(res.status === 200 || res.status === 201){
+          handleClose()
+          window.location.reload()
+        }else{
+          alert(res.status)
+          console.log(res);
+        }
       })
     } catch (error) {
       console.log(error)

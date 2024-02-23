@@ -3,11 +3,12 @@ import { useForm } from 'react-hook-form'
 import Button from '../common/Button'
 import Input from '../common/Input'
 import Select from '../common/Select'
-import { MultipleSelect, OptionWithCheckbox } from '../common/MultipleSelect'
-import Checkbox from '../common/Checkbox'
+import { MultipleSelect, OptionWithCheckbox } from '../common/MultipleSelect' 
 import RadioSelect from '../common/RadioSelect'
 import { getBaseUrl } from '../../utils/url'
 import FormSection from '../common/Section'
+
+import { uploadImage } from '../../utils/upload'
 
 import axios from 'axios' 
 
@@ -20,6 +21,8 @@ const ArtistForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
     setValue,
     watch
   } = useForm() 
+
+  const [uploading, setUploading] = useState(false);
   
   const [artists , setArtists] = useState([]);
 
@@ -42,6 +45,26 @@ const ArtistForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
       setValue('bandMembers', defaultValues.bandMembers.map((member) => member.slug))
     }
   }, [defaultValues, setValue]);
+
+
+  const primaryImageFile = watch("primaryImageFile");
+
+// This useEffect handles the file upload when a new file is selected
+useEffect(() => {
+  if (primaryImageFile && primaryImageFile.length > 0) {
+    setUploading(true);
+    const file = primaryImageFile[0];
+    uploadImage(file).then(fileUrl => {
+      setUploading(false);
+      // Assuming the uploadImage function returns the URL of the uploaded image
+      setValue('primaryImage', fileUrl); // Update the form's primaryImage field with the uploaded image URL
+    }).catch(error => {
+      setUploading(false);
+      console.error("Error uploading image:", error);
+    });
+  }
+
+}, [primaryImageFile, setValue]);
 
   useEffect(() => {
     
@@ -101,21 +124,49 @@ const ArtistForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
             })}
           />
 
-          <Input
-            name="primaryImage"
-            label="Image URL"
-            placeholder="Image URL..."
-            type="text"
-            error={errors.primaryImage ? errors.primaryImage.message : false}
-            register={register('primaryImage', {
-              required: {
-                value: true,
-                message: 'You must add the primaryImage of your artist.',
-              },
-            })}
-          />
- 
+            <div className="flex flex-col gap-4">
+                <label htmlFor="primaryImageFile">Upload artist Image: </label> 
 
+                {
+                  uploading ? (
+                    <p>Uploading...</p>
+                  ) : null
+                }
+                
+                <input
+                  id="primaryImageFile"
+                  name="primaryImageFile"
+                  type="file"
+                  accept="image/*"
+                  {...register('primaryImageFile', {
+                    required: {
+                      value: false,
+                      message: 'You must select an image to upload.',
+                    },
+                  })}
+                />
+
+                {errors.primaryImageFile && <p>{errors.primaryImageFile.message}</p>}
+
+                {/* Hidden Input to store the Image URL after upload */}
+                <input
+                  type="hidden"
+                  {...register('primaryImage')}
+                />
+
+                {
+                    defaultValues?.primaryImage || watch('primaryImage') ? (
+                    <img
+                      className="w-1/2"
+                      src={watch('primaryImage') || defaultValues?.primaryImage || primaryImageFile?.length > 0 ? URL.createObjectURL(primaryImageFile[0]) : null}
+                      alt="Primary Image"
+                    />
+                  ) : null
+                }
+
+            </div>
+
+            
           <Input
             name="bio"
             label="Bio"

@@ -6,7 +6,7 @@ import Select from '../common/Select'
 import { MultipleSelect, OptionWithCheckbox } from '../common/MultipleSelect'
 import Checkbox from '../common/Checkbox'
 import RadioSelect from '../common/RadioSelect'
-
+import { uploadImage } from '../../utils/upload'
 import FormSection from '../common/Section' 
 import MediaUpload from '../common/MediaUpload'
 import ThumbnailUpload from '../common/ThumbnailUpload'
@@ -92,7 +92,20 @@ useEffect(() => {
   }, [defaultValues, setValue])
 
  
+  const coverImageFile = watch("coverImageFile");
 
+// This useEffect handles the file upload when a new file is selected
+useEffect(() => {
+  if (coverImageFile && coverImageFile.length > 0) {
+    const file = coverImageFile[0];
+    uploadImage(file).then(fileUrl => {
+      // Assuming the uploadImage function returns the URL of the uploaded image
+      setValue('coverImage', fileUrl); // Update the form's coverImage field with the uploaded image URL
+    }).catch(error => {
+      console.error("Error uploading image:", error);
+    });
+  }
+}, [coverImageFile, setValue]);
 
 
   return (
@@ -112,6 +125,49 @@ useEffect(() => {
               },
             })}
           />
+
+
+
+             <div className="flex flex-col gap-4">
+                <label htmlFor="coverImageFile">Upload artist Image: </label> 
+                
+                <input
+                  id="coverImageFile"
+                  name="coverImageFile"
+                  type="file"
+                  accept="image/*"
+                  {...register('coverImageFile', {
+                    required: {
+                      value: false,
+                      message: 'You must select an image to upload.',
+                    },
+                  })}
+                />
+
+                {errors.coverImageFile && <p>{errors.coverImageFile.message}</p>}
+
+                {/* Hidden Input to store the Image URL after upload */}
+                <input
+                  type="hidden"
+                  {...register('coverImage')}
+                />
+
+                {
+                    defaultValues?.coverImage || watch('coverImage') ? (
+                    <img
+                      className="w-1/2"
+                      src={watch('coverImage') || defaultValues?.coverImage || coverImageFile?.length > 0 ? URL.createObjectURL(coverImageFile[0]) : null}
+                      alt="Cover Image"
+                    />
+                  ) : null
+                }
+
+            </div>
+
+            
+
+
+
          <Input
             name="coverImage"
             label="Cover URL"
