@@ -34,5 +34,5 @@ jobs:
             docker build -t shuno_cms .
             docker stop shuno_cms || true
             docker rm shuno_cms || true
-            docker run -d --name shuno_cms -p 3000:3000 shuno_cms 
+            docker run -d --name shuno_cms -p 5001:5001 shuno_cms 
             docker system prune -a --volumes -f
