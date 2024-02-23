@@ -21,7 +21,7 @@ function Album() {
 
   useEffect(() => {
     console.log(router.query.slug);
-     axios.get(process.env.API + `/albums/` + router.query.slug).then((res) => {
+     axios.get(getBaseUrl() + `/albums/` + router.query.slug).then((res) => {
       console.log(res.data.album.album)
       setAlbum(res.data.album.album)
     }

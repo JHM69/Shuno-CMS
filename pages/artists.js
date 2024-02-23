@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import ArtistItemsSkeleton from '../components/Artists/ArtistItemsSkeleton' 
 import AddArtist from '../components/Artist/AddArtist' 
 import axios from 'axios'
-import { process.env.API } from '../utils/constants'
+import { getBaseUrl() } from '../utils/constants'
 
 function Artists() {
   const [loading, setLoading] = useState(false)
@@ -12,7 +12,7 @@ function Artists() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-         axios.get(process.env.API+`/artists`).then((res) => {
+         axios.get(getBaseUrl()+`/artists`).then((res) => {
             console.log(res.data.artists)
             setArtists(res.data.artists)
             }

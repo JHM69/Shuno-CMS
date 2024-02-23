@@ -21,7 +21,7 @@ function Song() {
 
   useEffect(() => {
     console.log(router.query.slug);
-     axios.get(process.env.API + `/songs/` + router.query.slug).then((res) => {
+     axios.get(getBaseUrl() + `/songs/` + router.query.slug).then((res) => {
       console.log(res.data.song.song)
       setSong(res.data.song.song)
     }

@@ -12,7 +12,7 @@ const DeleteArtist = ({ slug, ...props }) => {
   const handleDelete = async () => {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
-      await fetch(process.env.API+`/artists/`+ slug, {
+      await fetch(getBaseUrl()+`/artists/`+ slug, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

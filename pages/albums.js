@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import AlbumItemsSkeleton from '../components/Albums/AlbumItemsSkeleton' 
 import AddAlbum from '../components/Album/AddAlbum'  
 import axios from 'axios'
-import { process.env.API } from '../utils/constants'
+import { getBaseUrl() } from '../utils/constants'
 
 function Albums() {
   const [loading, setLoading] = useState(false)
@@ -12,7 +12,7 @@ function Albums() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-         axios.get(process.env.API+`/albums`).then((res) => {
+         axios.get(getBaseUrl()+`/albums`).then((res) => {
             console.log(res.data.albums)
             setAlbums(res.data.albums)
             }

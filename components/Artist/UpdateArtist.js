@@ -14,7 +14,7 @@ const UpdateArtist = ({ artist, ...props }) => {
   const onFormSubmit = async (data) => {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
-      await fetch(process.env.API+`/artists/`+artist.slug, {
+      await fetch(getBaseUrl()+`/artists/`+artist.slug, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -12,7 +12,7 @@ const UpdateSong = ({ song, ...props }) => {
 
   const onFormSubmit = async (data) => {
     try {
-      await fetch(process.env.API+`/songs/updateSong`, {
+      await fetch(getBaseUrl()+`/songs/updateSong`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

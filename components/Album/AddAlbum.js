@@ -16,7 +16,7 @@ const AddAlbum = ({ props }) => {
     try { 
       const user = JSON.parse(localStorage.getItem('user'));
       console.log(data)
-      await fetch(process.env.API+`/albums`, {
+      await fetch(getBaseUrl()+`/albums`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

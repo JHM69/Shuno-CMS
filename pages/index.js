@@ -1,14 +1,21 @@
 import { useForm } from 'react-hook-form' 
 import Button from '../components/common/Button' 
 import Layout from '../components/layout'
-import { useState } from 'react' 
-import { process.env.API } from '../utils/constants'
+import { useState } from 'react'  
 import { useAuth } from '../components/Context/AuthContext'
+
+const url = process.env.API
+
+export const getBaseUrl = () => {
+  return url;
+}
+
 
 function Index() { 
   const [loading, setLoading] = useState(false)
   const [user , setUser] = useState({})
   const { isLoggedIn, login, logout } = useAuth();
+
 
   useState(() => {
     if (typeof window !== 'undefined') {
@@ -31,7 +38,7 @@ function Index() {
         }
       }
       setLoading(true)
-      const res = await fetch(process.env.API+'/users/login', {
+      const res = await fetch(getBaseUrl()+'/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

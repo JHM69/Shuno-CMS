@@ -12,7 +12,7 @@ const DeleteAlbum = ({ albumId, ...props }) => {
   const handleDelete = async () => {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
-      await fetch(process.env.API+`/albums`, {
+      await fetch(getBaseUrl()+`/albums`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

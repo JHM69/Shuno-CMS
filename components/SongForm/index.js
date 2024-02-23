@@ -60,7 +60,7 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
   const [search1, setSearch1] = useState('');
 
   useEffect(() => {
-    axios.get(process.env.API+`/albums?search=`+search1).then((res) => {
+    axios.get(getBaseUrl()+`/albums?search=`+search1).then((res) => {
       setAlbums(res.data.albums)
       }
       ).catch((err) => {
@@ -70,7 +70,7 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
 
 useEffect(() => {
 
-  axios.get(process.env.API+`/artists?search=`+search2).then((res) => {
+  axios.get(getBaseUrl()+`/artists?search=`+search2).then((res) => {
     setArtists2(res.data.artists)
     }
     ).catch((err) => {
@@ -82,7 +82,7 @@ useEffect(() => {
 
 useEffect(() => {
 
-  axios.get(process.env.API+`/artists?search=`+search3).then((res) => {
+  axios.get(getBaseUrl()+`/artists?search=`+search3).then((res) => {
     setArtists3(res.data.artists)
     }
     ).catch((err) => {

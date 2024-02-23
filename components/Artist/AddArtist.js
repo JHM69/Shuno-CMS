@@ -16,7 +16,7 @@ const AddArtist = ({ props }) => {
     try { 
       const user = JSON.parse(localStorage.getItem('user'));
       
-      await fetch(process.env.API+`/artists`, {
+      await fetch(getBaseUrl()+`/artists`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

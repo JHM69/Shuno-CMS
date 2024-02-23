@@ -45,7 +45,7 @@ const ArtistForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
 
   useEffect(() => {
     
-    axios.get(process.env.API+`/artists?search=`+search).then((res) => { 
+    axios.get(getBaseUrl()+`/artists?search=`+search).then((res) => { 
       setArtists(res.data.artists)
       }
       ).catch((err) => {
