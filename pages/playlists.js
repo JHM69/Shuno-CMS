@@ -3,7 +3,7 @@ import PlaylistItems from '../components/Playlists/PlaylistItems'
 import { useEffect, useState } from 'react'
 import PlaylistItemsSkeleton from '../components/Playlists/PlaylistItemsSkeleton' 
 import AddPlaylist from '../components/Playlist/AddPlaylist'
-import { baseUrl } from '../utils/constants'
+import { process.env.API } from '../utils/constants'
 
 function Playlists() {
   const [loading, setLoading] = useState(false)
@@ -12,7 +12,7 @@ function Playlists() {
     const fetchData = async () => {
       setLoading(true)
       try {
-        const res = await fetch(baseUrl+`/playlists`)
+        const res = await fetch(process.env.API+`/playlists`)
         const { data } = await res.json()
         setPlaylists(data)
       } catch (error) {

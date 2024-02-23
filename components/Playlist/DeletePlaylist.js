@@ -10,7 +10,7 @@ const DeletePlaylist = ({ playlistId, ...props }) => {
 
   const handleDelete = async () => {
     try {
-      await fetch(baseUrl+`/playlists/deletePlaylist`, {
+      await fetch(process.env.API+`/playlists/deletePlaylist`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

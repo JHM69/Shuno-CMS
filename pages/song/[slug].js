@@ -4,7 +4,7 @@ import SongLayout from '../../components/Song/SongLayout'
 import DeleteSong from '../../components/Song/DeleteSong'
 import UpdateSong from '../../components/Song/UpdateSong'
 import axios from 'axios'
-import { baseUrl } from '../../utils/constants'
+
 import { useRouter } from 'next/router'
 
  
@@ -21,7 +21,7 @@ function Song() {
 
   useEffect(() => {
     console.log(router.query.slug);
-     axios.get(baseUrl + `/songs/` + router.query.slug).then((res) => {
+     axios.get(process.env.API + `/songs/` + router.query.slug).then((res) => {
       console.log(res.data.song.song)
       setSong(res.data.song.song)
     }

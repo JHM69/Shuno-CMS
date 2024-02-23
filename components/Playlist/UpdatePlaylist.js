@@ -12,7 +12,7 @@ const UpdatePlaylist = ({ playlist, ...props }) => {
 
   const onFormSubmit = async (data) => {
     try {
-      await fetch(baseUrl+`/playlists/updatePlaylist`, {
+      await fetch(process.env.API+`/playlists/updatePlaylist`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ const AddPlaylist = ({ props }) => {
   const handleOpen = () => setIsOpen(true)
   const onFormSubmit = async (data) => {
     try {
-      await fetch(baseUrl+`/playlists/createPlaylist`, {
+      await fetch(process.env.API+`/playlists/createPlaylist`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

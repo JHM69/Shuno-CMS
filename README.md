@@ -18,9 +18,9 @@ and get the api url.
 
 Backend: https://github.com/JHM69/Shuno-Backend
 
-Change the base url as Backend Api from utils/constrains.js
+Change the url to your Backend Api in .env file.
 ```bash
-export const baseUrl = 'http://localhost:3000/api';
+API = 'http://localhost:3000/api';
 ```
 
 Run the development server:

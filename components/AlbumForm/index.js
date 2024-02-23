@@ -10,7 +10,7 @@ import RadioSelect from '../common/RadioSelect'
 import FormSection from '../common/Section' 
 import MediaUpload from '../common/MediaUpload'
 import ThumbnailUpload from '../common/ThumbnailUpload'
-import { baseUrl } from '../../utils/constants'
+
 import axios from 'axios'
 
 const AlbumForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
@@ -33,7 +33,7 @@ const AlbumForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
 
   useEffect(() => {
     
-    axios.get(baseUrl+`/artists?search=`+search1).then((res) => { 
+    axios.get(process.env.API+`/artists?search=`+search1).then((res) => { 
       setArtists1(res.data.artists) 
       }
       ).catch((err) => {
@@ -43,7 +43,7 @@ const AlbumForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
 
 useEffect(() => {
 
-  axios.get(baseUrl+`/artists?search=`+search2).then((res) => {
+  axios.get(process.env.API+`/artists?search=`+search2).then((res) => {
     setArtists2(res.data.artists)
     }
     ).catch((err) => {
@@ -55,7 +55,7 @@ useEffect(() => {
 
 useEffect(() => {
 
-  axios.get(baseUrl+`/artists?search=`+search3).then((res) => {
+  axios.get(process.env.API+`/artists?search=`+search3).then((res) => {
     setArtists3(res.data.artists)
     }
     ).catch((err) => {

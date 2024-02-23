@@ -4,7 +4,7 @@ import AlbumLayout from '../../components/Album/AlbumLayout'
 import DeleteAlbum from '../../components/Album/DeleteAlbum'
 import UpdateAlbum from '../../components/Album/UpdateAlbum'
 import axios from 'axios'
-import { baseUrl } from '../../utils/constants'
+
 import { useRouter } from 'next/router'
 
  
@@ -21,7 +21,7 @@ function Album() {
 
   useEffect(() => {
     console.log(router.query.slug);
-     axios.get(baseUrl + `/albums/` + router.query.slug).then((res) => {
+     axios.get(process.env.API + `/albums/` + router.query.slug).then((res) => {
       console.log(res.data.album.album)
       setAlbum(res.data.album.album)
     }

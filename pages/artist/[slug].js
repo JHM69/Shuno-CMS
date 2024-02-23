@@ -4,7 +4,7 @@ import ArtistLayout from '../../components/Artist/ArtistLayout'
 import DeleteArtist from '../../components/Artist/DeleteArtist'
 import UpdateArtist from '../../components/Artist/UpdateArtist'
 import axios from 'axios'
-import { baseUrl } from '../../utils/constants'
+
 import { useRouter } from 'next/router'
 
  
@@ -21,7 +21,7 @@ function Artist() {
 
   useEffect(() => {
     console.log(router.query.slug);
-    const response = axios.get(baseUrl + `/artists/` + router.query.slug).then((res) => {
+    const response = axios.get(process.env.API + `/artists/` + router.query.slug).then((res) => {
       console.log(res.data.artist.artist)
       setArtist(res.data.artist.artist)
     }

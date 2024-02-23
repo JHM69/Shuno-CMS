@@ -4,7 +4,7 @@ import React, { Fragment, useState } from 'react'
 import Button from '../common/Button'
 import { Close } from '../common/icons/Close'
 import ArtistForm from '../ArtistForm'
-import { baseUrl } from '../../utils/constants'
+
 
 const AddArtist = ({ props }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -16,7 +16,7 @@ const AddArtist = ({ props }) => {
     try { 
       const user = JSON.parse(localStorage.getItem('user'));
       
-      await fetch(baseUrl+`/artists`, {
+      await fetch(process.env.API+`/artists`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

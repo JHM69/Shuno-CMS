@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import Button from '../components/common/Button' 
 import Layout from '../components/layout'
 import { useState } from 'react' 
-import { baseUrl } from '../utils/constants'
+import { process.env.API } from '../utils/constants'
 import { useAuth } from '../components/Context/AuthContext'
 
 function Index() { 
@@ -31,7 +31,7 @@ function Index() {
         }
       }
       setLoading(true)
-      const res = await fetch(baseUrl+'/users/login', {
+      const res = await fetch(process.env.API+'/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

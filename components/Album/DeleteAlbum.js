@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import React, { Fragment, useState } from 'react'
 
 import Button from '../common/Button'
-import { baseUrl } from '../../utils/constants'
+
 
 const DeleteAlbum = ({ albumId, ...props }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -12,8 +12,7 @@ const DeleteAlbum = ({ albumId, ...props }) => {
   const handleDelete = async () => {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
-      await fetch(baseUrl+`/albums`, {
-
+      await fetch(process.env.API+`/albums`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

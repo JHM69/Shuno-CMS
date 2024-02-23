@@ -10,7 +10,7 @@ import RadioSelect from '../common/RadioSelect'
 import FormSection from '../common/Section'
 
 import axios from 'axios' 
-import { baseUrl } from '../../utils/constants'
+
 
 const ArtistForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
   const {
@@ -45,7 +45,7 @@ const ArtistForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
 
   useEffect(() => {
     
-    axios.get(baseUrl+`/artists?search=`+search).then((res) => { 
+    axios.get(process.env.API+`/artists?search=`+search).then((res) => { 
       setArtists(res.data.artists)
       }
       ).catch((err) => {

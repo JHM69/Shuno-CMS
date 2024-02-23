@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import SongItemsSkeleton from '../components/Songs/SongItemsSkeleton' 
 import AddSong from '../components/Song/AddSong' 
 import axios from 'axios'
-import { baseUrl } from '../utils/constants'
+import { process.env.API } from '../utils/constants'
 
 function Songs() {
   const [loading, setLoading] = useState(false)
@@ -12,7 +12,7 @@ function Songs() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-         axios.get(baseUrl+`/songs`).then((res) => {
+         axios.get(process.env.API+`/songs`).then((res) => {
             console.log(res.data.songs)
             setSongs(res.data.songs)
             }

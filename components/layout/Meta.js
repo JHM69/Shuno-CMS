@@ -4,7 +4,7 @@ import Head from 'next/head'
 const makeTitle = (title, name) =>
   title === name || !name ? title : `${title} | ${name}`
 
-const baseUrl =
+const process.env.API =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000'
     : ''
@@ -13,7 +13,7 @@ const Meta = ({
   title = 'Shuno CMS',
   name = '',
   description = 'Content management system for Shuno',
-  url = baseUrl,
+  url = process.env.API,
   image = '/logo.png',
   children,
 }) => (

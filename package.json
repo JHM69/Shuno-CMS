@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 5001",
     "format": "npx prettier **/**/*.{js,jsx} --write",
     "lint": "next lint"
   },
