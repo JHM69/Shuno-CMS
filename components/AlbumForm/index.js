@@ -153,7 +153,7 @@ useEffect(() => {
                     defaultValues?.coverImage || watch('coverImage') ? (
                     <img
                       className="w-1/2"
-                      src={watch('coverImage') || defaultValues?.coverImage || coverImageFile?.length > 0 ? URL.createObjectURL(coverImageFile[0]) : null}
+                      src={watch('coverImage') || defaultValues?.coverImage || coverImageFile?.length > 0 ? URL?.createObjectURL(coverImageFile[0]) : null}
                       alt="Cover Image"
                     />
                   ) : null

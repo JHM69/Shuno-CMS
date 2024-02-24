@@ -158,7 +158,7 @@ useEffect(() => {
                     defaultValues?.primaryImage || watch('primaryImage') ? (
                     <img
                       className="w-1/2"
-                      src={watch('primaryImage') || defaultValues?.primaryImage || primaryImageFile?.length > 0 ? URL.createObjectURL(primaryImageFile[0]) : null}
+                      src={watch('primaryImage') || defaultValues?.primaryImage || primaryImageFile?.length > 0 ? URL?.createObjectURL(primaryImageFile[0]) : null}
                       alt="Primary Image"
                     />
                   ) : null

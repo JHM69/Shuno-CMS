@@ -10,7 +10,7 @@ const MediaUpload = ({ defaultValues = [], setValue }) => {
     const targetFiles = changeEvent.target.files
     const targetFilesObject = [...targetFiles]
     targetFilesObject.map((file) => {
-      return selectedFIles.push(URL.createObjectURL(file))
+      return selectedFIles.push(URL?.createObjectURL(file))
     })
     setImageSrc(selectedFIles)
   }

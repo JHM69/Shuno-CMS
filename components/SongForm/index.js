@@ -38,6 +38,8 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
       setValue('copyRight', defaultValues.copyRight)
       setValue('downloadUrls', defaultValues?.downloadUrls?.map((url) => url))
       setValue('origin', defaultValues.origin)
+      setValue('tags', defaultValues.tags)
+      setValue('mood', defaultValues.mood)
       setValue('lyricsSnippet', defaultValues.lyricsSnippet)
       setValue('encryptedMediaUrl', defaultValues.encryptedMediaUrl)
       setValue('encryptedMediaPath', defaultValues.encryptedMediaPath)
@@ -173,7 +175,7 @@ useEffect(() => {
                     defaultValues?.primaryImage || watch('primaryImage') ? (
                     <img
                       className="w-1/2"
-                      src={watch('primaryImage') || defaultValues?.primaryImage || primaryImageFile?.length > 0 ? URL.createObjectURL(primaryImageFile[0]) : null}
+                      src={watch('primaryImage') || defaultValues?.primaryImage || primaryImageFile?.length > 0 ? URL?.createObjectURL(primaryImageFile[0]) : null}
                       alt="Primary Image"
                     />
                   ) : null
@@ -483,7 +485,7 @@ useEffect(() => {
 
                 {
                     defaultValues?.url || watch('url') ? (
-                    <audio className="w-1/2" src={watch('url') || defaultValues?.url || urlFile?.length > 0 ? URL.createObjectURL(urlFile[0]) : null} controls/> 
+                    <audio className="w-1/2" src={watch('url') || defaultValues?.url || urlFile?.length > 0 ? URL?.createObjectURL(urlFile[0]) : null} controls/> 
                   ) : null 
                 }
             </div>
@@ -539,16 +541,33 @@ useEffect(() => {
           />
 
 
+          <Input
+            name="tags"
+            label="Tags (optional)"
+            placeholder="Use comma to separate multiple tags..."
+            type="text"
+            error={errors.tags ? errors.tags.message : false}
+            register={register('copyright')}
+          />
+
+          <Input
+            name="mood"
+            label="Mood of Listen (optional)"
+            placeholder=" Enter mood of the song... "
+            type="text"
+            error={errors.mood ? errors.mood.message : false}
+            register={register('copyright')}
+          />
+
+
        Lyrics Snippet
-      <input
-       className={ "form-control h-20 block w-full border border-solid bg-white bg-clip-padding px-4 py-2 font-normal text-gray-700 focus:ring-2"  }
-            name="lyricsSnippet"
-            label="Lyrics Snippet"
-            placeholder="Lyrics snippet of the song..."
-            type="textarea"
-            hight = "500px"
-            register={register('lyricsSnippet')}
-          /> 
+       <textarea
+  className="form-control h-20 block w-full border border-solid bg-white bg-clip-padding px-4 py-2 font-normal text-gray-700 focus:ring-2"
+  name="lyricsSnippet"
+  placeholder="Lyrics snippet of the song..."
+  {...register('lyricsSnippet')}
+  style={{ height: "500px" }} // Directly setting the height using inline styles
+/>
           <Input
             name="mediaPreviewUrl"
             label="Media Preview URL"
