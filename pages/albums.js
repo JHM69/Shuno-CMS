@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 import AlbumItemsSkeleton from '../components/Albums/AlbumItemsSkeleton' 
 import AddAlbum from '../components/Album/AddAlbum'  
 import axios from 'axios'
-import { getBaseUrl } from '../pages/index'
+import { getBaseUrl } from '../utils/url'
+ 
 function Albums() {
   const [loading, setLoading] = useState(false)
   const [albums, setAlbums] = useState([])

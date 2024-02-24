@@ -18,8 +18,9 @@ const AddPlaylist = ({ props }) => {
         },
         body: JSON.stringify(data),
       }).then(() => {
-        handleClose()
-        window.location.reload()
+        // handleClose()
+        // window.location.reload()
+        alert("Successfully Added.")
       })
     } catch (error) {
       console.log(error)

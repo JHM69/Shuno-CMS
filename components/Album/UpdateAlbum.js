@@ -24,6 +24,7 @@ const UpdateAlbum = ({ album, ...props }) => {
       }).then(() => {
         // handleClose()
         // window.location.reload()
+        alert("Successfully Added.")
       })
     } catch (error) {
       console.log(error)

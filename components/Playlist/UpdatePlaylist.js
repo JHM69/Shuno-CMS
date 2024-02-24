@@ -19,8 +19,9 @@ const UpdatePlaylist = ({ playlist, ...props }) => {
         },
         body: JSON.stringify({ id: playlist.id, ...data }),
       }).then(() => {
-        handleClose()
-        window.location.reload()
+        // handleClose()
+        // window.location.reload()
+        alert("Successfully Added.")
       })
     } catch (error) {
       console.log(error)

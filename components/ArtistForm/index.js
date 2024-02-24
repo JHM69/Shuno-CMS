@@ -35,7 +35,7 @@ const ArtistForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
       setValue('primaryImage', defaultValues.primaryImage)
       setValue('bio', defaultValues.bio)
       setValue('creatorType', defaultValues.creatorType)
-      setValue('genres', defaultValues.genres.map((genre) => genre.slug))
+      setValue('genres', defaultValues?.genres?.map((genre) => genre.slug) || [] ) 
       setValue('fb', defaultValues.fb)
       setValue('twitter', defaultValues.twitter)
       setValue('wiki', defaultValues.wiki)
@@ -305,7 +305,7 @@ useEffect(() => {
           <RadioSelect
               className="w-full md:w-1/2"
               name="isBand"
-              label="Is a Band?"
+              label="Is a Band or Group?"
               register={register('isBand')}
               error={
                 errors.isBand ? errors.isBand.message : false
@@ -321,7 +321,7 @@ useEffect(() => {
          <input
             className='w-4/5 p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-gray-200'
             name="search"
-            label="Search Band Members"
+            label="Search Members"
             placeholder="Jahangir Hossain..."
             type="textarea"
             value={search} 
@@ -340,7 +340,7 @@ useEffect(() => {
             <MultipleSelect
               name="bandMembers"
               multiple={true}
-              label="Select Band Members..."
+              label="Select Members..."
               register={register('bandMembers')}
             >
              {

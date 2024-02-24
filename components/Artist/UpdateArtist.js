@@ -22,8 +22,9 @@ const UpdateArtist = ({ artist, ...props }) => {
         },
         body: JSON.stringify({ slug: artist.slug, ...data }),
       }).then(() => {
-        handleClose()
-        window.location.reload()
+        // handleClose()
+        // window.location.reload()
+        alert("Successfully Added.")
       })
     } catch (error) {
       console.log(error)

@@ -23,9 +23,11 @@ const AddArtist = ({ props }) => {
         },
         body: JSON.stringify(data),
       }).then((res) => {
+        console.log(res);
         if(res.status === 200 || res.status === 201){
-          handleClose()
-          window.location.reload()
+          // handleClose()
+          // window.location.reload()
+          alert("Successfully Added.")
         }else{
           alert(res.status)
           console.log(res);

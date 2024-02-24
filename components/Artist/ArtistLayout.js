@@ -96,7 +96,7 @@ const ArtistLayout = ({ artist }) => {
 
         
           {artist.bandMembers?.length > 0 && (
-          <Section title={'Band Members'}>
+          <Section title={'Members'}>
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {
                 artist.bandMembers?.map((artist, idx) => (

@@ -19,8 +19,9 @@ const UpdateSong = ({ song, ...props }) => {
         },
         body: JSON.stringify({ id: song.id, ...data }),
       }).then(() => {
-        handleClose()
-        window.location.reload()
+        // handleClose()
+        // window.location.reload()
+        alert("Successfully Added.")
       })
     } catch (error) {
       console.log(error)

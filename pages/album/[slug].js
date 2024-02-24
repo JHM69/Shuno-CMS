@@ -3,9 +3,9 @@ import Layout from '../../components/layout'
 import AlbumLayout from '../../components/Album/AlbumLayout'
 import DeleteAlbum from '../../components/Album/DeleteAlbum'
 import UpdateAlbum from '../../components/Album/UpdateAlbum'
-import axios from 'axios'
-import { getBaseUrl } from '../../utils/url'
+import axios from 'axios' 
 import { useRouter } from 'next/router'
+import { getBaseUrl } from '../../utils/url'
 
  
 
