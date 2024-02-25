@@ -22,9 +22,9 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
   useEffect(() => {
     if (defaultValues) {
       setValue('name', defaultValues.name) 
-      setValue('releaseDate', new Date(defaultValues.releaseDate).toISOString().split('T')[0])
-      setValue('primaryImage', defaultValues.primaryImage)
-      setValue('duration', defaultValues.duration)
+      setValue('releaseDate', new Date(defaultValues?.releaseDate)?.toISOString().split('T')[0])
+      setValue('primaryImage', defaultValues?.primaryImage)
+      setValue('duration', defaultValues?.duration)
       setValue('label', defaultValues.label)
       setValue('language', defaultValues.language)
       setValue('contentType', defaultValues.contentType)
@@ -38,8 +38,8 @@ const SongForm = ({ type, defaultValues, onFormSubmit, ...props }) => {
       setValue('copyRight', defaultValues.copyRight)
       setValue('downloadUrls', defaultValues?.downloadUrls?.map((url) => url))
       setValue('origin', defaultValues.origin)
-      setValue('tags', defaultValues.tags)
-      setValue('mood', defaultValues.mood)
+      setValue('tags', defaultValues?.tags)
+      setValue('mood', defaultValues?.mood)
       setValue('lyricsSnippet', defaultValues.lyricsSnippet)
       setValue('encryptedMediaUrl', defaultValues.encryptedMediaUrl)
       setValue('encryptedMediaPath', defaultValues.encryptedMediaPath)
@@ -175,7 +175,7 @@ useEffect(() => {
                     defaultValues?.primaryImage || watch('primaryImage') ? (
                     <img
                       className="w-1/2"
-                      src={watch('primaryImage') || defaultValues?.primaryImage || primaryImageFile?.length > 0 ? URL?.createObjectURL(primaryImageFile[0]) : null}
+                      src={watch('primaryImage') || defaultValues?.primaryImage}
                       alt="Primary Image"
                     />
                   ) : null
@@ -485,7 +485,7 @@ useEffect(() => {
 
                 {
                     defaultValues?.url || watch('url') ? (
-                    <audio className="w-1/2" src={watch('url') || defaultValues?.url || urlFile?.length > 0 ? URL?.createObjectURL(urlFile[0]) : null} controls/> 
+                    <audio className="w-1/2" src={watch('url') || defaultValues?.url} controls/> 
                   ) : null 
                 }
             </div>
@@ -547,7 +547,7 @@ useEffect(() => {
             placeholder="Use comma to separate multiple tags..."
             type="text"
             error={errors.tags ? errors.tags.message : false}
-            register={register('copyright')}
+            register={register('tags')}
           />
 
           <Input
@@ -556,7 +556,7 @@ useEffect(() => {
             placeholder=" Enter mood of the song... "
             type="text"
             error={errors.mood ? errors.mood.message : false}
-            register={register('copyright')}
+            register={register('mood')}
           />
 
 

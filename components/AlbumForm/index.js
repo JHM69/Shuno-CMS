@@ -70,7 +70,7 @@ useEffect(() => {
     if (defaultValues) {
       setValue('name', defaultValues.name) 
       setValue('coverImage', defaultValues.coverImage)
-      setValue('releaseDate', new Date(defaultValues.releaseDate).toISOString().split('T')[0])
+      setValue('releaseDate', new Date(defaultValues?.releaseDate)?.toISOString().split('T')[0])
       setValue('duration', defaultValues.duration)
       setValue('label', defaultValues.label)
       setValue('language', defaultValues.language)
@@ -153,7 +153,7 @@ useEffect(() => {
                     defaultValues?.coverImage || watch('coverImage') ? (
                     <img
                       className="w-1/2"
-                      src={watch('coverImage') || defaultValues?.coverImage || coverImageFile?.length > 0 ? URL?.createObjectURL(coverImageFile[0]) : null}
+                      src={watch('coverImage') || defaultValues?.coverImage}
                       alt="Cover Image"
                     />
                   ) : null

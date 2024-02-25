@@ -12,18 +12,24 @@ const UpdateSong = ({ song, ...props }) => {
 
   const onFormSubmit = async (data) => {
     try {
-      await fetch(getBaseUrl()+`/songs/updateSong`, {
+      const user = JSON.parse(localStorage.getItem('user'));
+      await fetch(getBaseUrl()+`/songs/`+song.id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`
         },
         body: JSON.stringify({ id: song.id, ...data }),
       }).then(() => {
         // handleClose()
         // window.location.reload()
         alert("Successfully Added.")
+      }).catch((error) => {
+        alert("Failed Adding.")
+        console.log(error)
       })
     } catch (error) {
+      alert("Failed Adding.")
       console.log(error)
     }
   }
